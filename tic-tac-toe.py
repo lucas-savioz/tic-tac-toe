@@ -1,6 +1,7 @@
 from tkinter import *
+import tkinter.messagebox
 
-#  Définition des Variables
+# Définition des Variables
 blocks = [
     [0, 0, 0],
     [0, 0, 0],
@@ -9,7 +10,7 @@ blocks = [
 drapeau = True
 
 
-#  Définition des Fonctions 
+# Définition des Fonctions 
 def afficher(event):
     global drapeau, blocks
     l = (event.y-2)//100                    # Ligne du clic
@@ -26,12 +27,12 @@ def afficher(event):
             blocks[l][c] = -1
             message.configure(text='Aux croix de jouer')
 
+    somme = verif(blocks)
+    if somme == 1 or somme == -1:
+        tkinter.messagebox.showinfo("Fin du jeu", f"Les {'croix' if somme == 1 else 'ronds'} ont gagnés !")
+        recommencer()
+    else:
         drapeau = not(drapeau)
-        somme = verif(blocks)
-        if somme == 1:
-            message.configure(text='Les croix ont gagné !')
-        elif somme == -1:
-            message.configure(text='Les croix ont gagné !')
 
 
 def verif(tableau):
@@ -89,7 +90,7 @@ for i in range(4):
     lignes.append(draw.create_line(0, 100*i+2, 303, 100*i+2, width=3))
     lignes.append(draw.create_line(100*i+2, 0, 100*i+2, 303, width=3))
 
-# Evenements
+# Événements
 draw.bind('<Button-1>', afficher)
 
 # Programme principal
